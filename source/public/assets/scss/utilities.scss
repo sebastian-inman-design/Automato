@@ -1,0 +1,12 @@
+.empty\:hidden:empty {
+	@apply hidden;
+}
+
+.not-empty\:hidden:not(:empty) {
+	@apply hidden;
+}
+
+[disabled] {
+	@apply opacity-25;
+	cursor: not-allowed !important;
+}

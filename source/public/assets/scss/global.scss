@@ -1,0 +1,65 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+* {
+	box-sizing: border-box;
+  outline: none !important;
+
+  &:focus {
+    outline: none !important;
+  }
+
+}
+
+::-webkit-scrollbar {
+	height: 8px;
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+  border-right: 1px solid #DAE0E7;
+  border-left: 1px solid #DAE0E7;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  border-radius: 100px;
+}
+
+html {
+  @apply font-body;
+  @apply font-normal;
+	-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+	font-size: 16px;
+}
+
+body {
+	height: 100vh;
+}
+
+#app {
+  @apply flex;
+  @apply flex-col;
+  @apply overflow-hidden;
+  @apply flex-1;
+  @apply h-full;
+}
+
+svg path {
+  @apply fill-current;
+}
+
+button {
+  transition: border-color 200ms ease-in-out, 
+              background 200ms ease-in-out, 
+              opacity 200ms ease-in-out, 
+              color 200ms ease-in-out;
+}
+
+@import "utilities";
+@import "typography";

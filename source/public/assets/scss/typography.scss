@@ -1,0 +1,96 @@
+h1, h2, h3, h4, h5, h6 {
+	@apply font-headline;
+	@apply text-headline;
+	@apply items-center;
+	@apply flex;
+}
+
+h1 {
+	@apply tracking-5;
+	@apply font-medium;
+	line-height: 1.125;
+	font-size: 32px;
+}
+
+h2 {
+	@apply font-medium;
+	@apply mb-1;
+	line-height: 1.375;
+	font-size: 26px;
+}
+
+h3 {
+	@apply font-medium;
+	line-height: 1.165;
+	font-size: 21px;
+}
+
+h4 {
+	@apply font-semibold;
+	@apply my-5;
+	line-height: 1.365;
+	font-size: 18px;
+}
+
+h5 {
+	@apply font-medium;
+	@apply m-0;
+	line-height: 1.365;
+	font-size: 16px;
+}
+
+h6 {
+	@apply font-semibold;
+	@apply tracking-5;
+	@apply uppercase;
+	line-height: 1.365;
+	font-size: 14px;
+}
+
+p {
+	@apply font-normal;
+	line-height: 21px;
+	font-size: 14px;
+	margin-top: 2px;
+
+	a:hover,
+	a:focus-within {
+		@apply underline;
+	}
+
+}
+
+strong, b {
+	@apply text-headline;
+	@apply font-medium;
+}
+
+small {
+	font-size: 75%;
+
+	a {
+		font-size: inherit;
+	}
+	
+}
+
+a {
+	@apply text-primary-500;
+	@apply cursor-pointer;
+	@apply underline;
+	@apply text-sm;
+	transition: all 200ms ease-in-out;
+
+	&:hover,
+	&:focus {
+		@apply text-primary-300;
+	}
+
+}
+
+.workspace-title {
+	@apply whitespace-no-wrap;
+	@apply overflow-hidden;
+	text-overflow: ellipsis;
+	max-width: 12ch;
+}
