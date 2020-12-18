@@ -4,7 +4,7 @@ const state = {
 
 const mutations = {
 
-  fetchedAll(state: any, actions: any) {
+  fetched(state: any, actions: any) {
     Object.assign(state, actions)
   }
 
@@ -18,10 +18,10 @@ const actions = {
    * and stores them globally.
    */
 
-  async fetch({ commit }: any) {
+  async fetched({ commit }: any, actions: any) {
 
     console.log('fetching actions')
-    commit('fetchedAll', {})
+    commit('fetched', actions)
 
   },
   

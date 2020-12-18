@@ -1,11 +1,7 @@
 module.exports = {
-  runtimeCompiler: true,
-  publicPath: '/',
-  outputDir: "./build/public",
+  publicPath: '',
+  outputDir: "./build/renderer",
   configureWebpack: {
-    entry: "./source/public/index.ts",
-    output: {
-      filename: '[name].[hash].js'
-    }
+    entry: "./source/renderer/index.ts"
   }
 }

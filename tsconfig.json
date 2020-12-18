@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "strict": true,
-    "target": "ES2017",
-    "module": "CommonJS",
-    "outDir": "./build",
-    "rootDir": "./source",
+    "target": "ESNEXT",
+    "module": "ESNEXT",
     "skipLibCheck": true,
     "importHelpers": true,
     "esModuleInterop": true,
@@ -22,19 +20,18 @@
     "types": [
       "webpack-env"
     ],
-    "paths": {
-      "@/*": [ "source/*" ],
-      "@npm/*": [ "node_modules/*" ]
-    },
     "lib": [
-      "ES2017",
+      "ESNEXT",
       "DOM",
       "DOM.Iterable",
       "ScriptHost"
     ]
   },
+  "includes": [
+    "source/index.ts"
+  ],
   "exclude": [
     "node_modules",
-    "source/public"
+    "source/renderer"
   ]
 }
