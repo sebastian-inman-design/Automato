@@ -4,8 +4,8 @@
     "strict": true,
     "target": "ES2017",
     "module": "CommonJS",
-    "outDir": "./build",
-    "rootDir": "./source",
+    "outDir": "build",
+    "rootDir": "source",
     "skipLibCheck": true,
     "importHelpers": true,
     "esModuleInterop": true,
@@ -35,6 +35,7 @@
     "source/preload.ts"
   ],
   "exclude": [
+    "out",
     "node_modules",
     "source/lib",
     "source/renderer"
