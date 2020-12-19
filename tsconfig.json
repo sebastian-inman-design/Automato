@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "strict": true,
-    "target": "ESNEXT",
-    "module": "ESNEXT",
+    "target": "ES2017",
+    "module": "CommonJS",
+    "outDir": "./build",
+    "rootDir": "./source",
     "skipLibCheck": true,
     "importHelpers": true,
     "esModuleInterop": true,
@@ -13,7 +15,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noImplicitAny": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -21,17 +23,20 @@
       "webpack-env"
     ],
     "lib": [
-      "ESNEXT",
+      "ES2017",
       "DOM",
       "DOM.Iterable",
       "ScriptHost"
     ]
   },
   "includes": [
-    "source/index.ts"
+    "source/index.ts",
+    "source/paths.ts",
+    "source/preload.ts"
   ],
   "exclude": [
     "node_modules",
+    "source/lib",
     "source/renderer"
   ]
 }

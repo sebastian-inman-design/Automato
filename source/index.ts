@@ -1,10 +1,18 @@
-import { ipcMain } from 'electron'
+import { server, port } from './proxy'
 import { Application } from './main/application'
-import { emitActions } from './main/emitter'
 
-Application.Launch().then(() => {
-  
-  /** Listen for requests for available actions. */
-  ipcMain.on('request-actions', () => emitActions())
+/** Start the proxy server. */
+server.listen(port, () => {
+
+  /** Launch the app. */
+  Application.Launch()
+
+  /** Quit the application when all windows are closed. */
+  Application.instance.on('window-all-closed', () => {
+
+    server.close()
+    Application.Quit()
+
+  })
 
 })

@@ -38,8 +38,17 @@ const actions = {
 
   async fetch({ commit }: any, id: null|string = null) {
 
-    console.log('fetching workflow')
-    console.log({ id })
+    let workflows = JSON.parse(window.localStorage.getItem('workflows')) || {}
+
+    if(id) {
+
+      commit('fetchedOne', workflows[id])
+
+    }else{
+
+      commit('fetchedAll', workflows)
+
+    }
 
   },
 
@@ -52,16 +61,20 @@ const actions = {
 
   async create({ dispatch }: any, { id, workflow }: any) {
 
-    console.log('creating workflow')
-    console.log({ id, workflow })
+    let workflows = JSON.parse(window.localStorage.getItem('workflows')) || {}
+    workflows[String(id || Date.now())] = workflow
+    
+    window.localStorage.setItem('workflows', JSON.stringify(workflows))
 
   },
 
 
   async update({ dispatch }: any, { id, workflow }: any) {
 
-    console.log('updating workflow')
-    console.log({ id, workflow })
+    let workflows = JSON.parse(window.localStorage.getItem('workflows')) || {}
+    workflows[id] = workflow
+    
+    window.localStorage.setItem('workflows', JSON.stringify(workflows))
 
   },
 
@@ -73,8 +86,10 @@ const actions = {
 
   async delete({ dispatch }: any, id: string) {
 
-    console.log('deleting workflow')
-    console.log({ id })
+    let workflows = JSON.parse(window.localStorage.getItem('workflows')) || {}
+    delete workflows[id]
+    
+    window.localStorage.setItem('workflows', JSON.stringify(workflows))
 
   },
 

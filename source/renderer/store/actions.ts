@@ -1,10 +1,12 @@
+import axios from 'axios'
+
 const state = {
 
 }
 
 const mutations = {
 
-  fetched(state: any, actions: any) {
+  fetch(state: any, actions: any) {
     Object.assign(state, actions)
   }
 
@@ -18,10 +20,10 @@ const actions = {
    * and stores them globally.
    */
 
-  async fetched({ commit }: any, actions: any) {
+  async fetch({ commit }: any) {
 
-    console.log('fetching actions')
-    commit('fetched', actions)
+    let { data } = await axios.get(`http://localhost:6427/proxy/actions?ts=${Date.now()}`)
+    commit('fetch', data)
 
   },
   

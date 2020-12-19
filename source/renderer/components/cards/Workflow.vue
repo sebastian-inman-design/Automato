@@ -33,7 +33,7 @@
 <script lang="ts">
 
   import workflows from '@/public/store/workflows'
-import { Vue, Component, Prop } from 'vue-property-decorator'
+  import { Vue, Component, Prop } from 'vue-property-decorator'
   
   @Component 
   export default class Workflow extends Vue {

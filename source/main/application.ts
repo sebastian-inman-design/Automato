@@ -1,16 +1,10 @@
-require('dotenv-flow').config()
-
-import path from 'path'
 import electron from 'electron'
-import * as paths from '../paths'
-
-console.log(process.env.NODE_ENV)
 
 export class Application {
 
   static options: electron.BrowserWindowConstructorOptions = {
     webPreferences: {
-      webSecurity: true,
+      webSecurity: false,
       nodeIntegration: true,
       nativeWindowOpen: true
     }
@@ -34,9 +28,6 @@ export class Application {
         /** Open the main window on activation. */
         Application.instance.on('activate', Application.Open)
 
-        /** Quit the application when all windows are closed. */
-        Application.instance.on('window-all-closed', Application.Quit)
-
       }).then(resolve)
 
     })
@@ -47,7 +38,9 @@ export class Application {
   static async Open() {
 
     Application.window = new electron.BrowserWindow(Application.options)
+
     Application.window.maximize()
+    Application.window.removeMenu()
 
     if(process.env.NODE_ENV === 'development') {
 

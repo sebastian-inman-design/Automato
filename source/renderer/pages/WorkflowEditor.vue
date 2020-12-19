@@ -318,18 +318,10 @@
 
     async publishWorkflow() {
 
-      try {
-
-        await this.$store.dispatch(`workflows/${this.mode}`, {
-          id: this.id,
-          workflow: this.workflow
-        })
-
-      } catch(error) {
-
-        console.error(error)
-
-      }
+      await this.$store.dispatch(`workflows/${this.mode}`, {
+        id: this.id,
+        workflow: this.workflow
+      })
 
     }
 
