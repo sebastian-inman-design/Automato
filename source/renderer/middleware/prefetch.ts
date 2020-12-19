@@ -3,7 +3,7 @@ import store from '../store'
 
 export default async function(to: any, from: any, next: Function) {
 
-  if(to.name === 'index') {
+  if(!to.name || to.name === 'index') {
     await store.dispatch('workflows/fetch')
   }
 

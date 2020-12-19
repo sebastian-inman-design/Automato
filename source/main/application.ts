@@ -4,7 +4,7 @@ export class Application {
 
   static options: electron.BrowserWindowConstructorOptions = {
     webPreferences: {
-      webSecurity: false,
+      webSecurity: true,
       nodeIntegration: true,
       nativeWindowOpen: true
     }
@@ -45,13 +45,14 @@ export class Application {
     if(process.env.NODE_ENV === 'development') {
 
       await Application.window.loadURL('http://localhost:8080')
-      Application.window.webContents.openDevTools()
       
     }else{
   
-      await Application.window.loadFile('renderer/index.html')
+      await Application.window.loadURL('http://localhost:6427')
   
     }
+    
+    Application.window.webContents.openDevTools()
 
   }
 

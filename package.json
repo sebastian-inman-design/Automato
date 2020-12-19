@@ -18,6 +18,10 @@
     "start": "set NODE_ENV=production&&electron build/index.js",
     "dev": "set NODE_ENV=development&&electron build/index.js"
   },
+  "directories": {
+    "buildResources": "build",
+    "app": "build/renderer"
+  },
   "dependencies": {
     "@vue/cli-service": "^4.5.9",
     "axios": "^0.21.0",

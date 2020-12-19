@@ -38,7 +38,9 @@ const actions = {
 
   async fetch({ commit }: any, id: null|string = null) {
 
+    console.log('fetching workflows...')
     let workflows = JSON.parse(window.localStorage.getItem('workflows')) || {}
+    console.log({ workflows })
 
     if(id) {
 

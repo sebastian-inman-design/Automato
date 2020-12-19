@@ -4,5 +4,5 @@ export default {
   component: () => import('../pages/Index.vue'),
   beforeEnter: prefetch,
   name: 'index',
-  path: '/'
+  path: ''
 }

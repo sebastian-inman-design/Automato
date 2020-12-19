@@ -8,6 +8,7 @@ Vue.use(VueRouter)
 
 export default new VueRouter({
   mode: 'history',
+  base: '/',
   routes: [
     index,
     workflows
