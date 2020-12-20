@@ -21,3 +21,11 @@ type ActionOptions = {
   fields?: ActionFields,
   method: (args?: any) => Promise<any>
 }
+
+type Workflow = {
+  title: string,
+  description: string,
+  thumbnail: string|null,
+  category: string|null
+  steps: Array<any>
+}

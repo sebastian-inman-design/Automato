@@ -1,3 +1,6 @@
+import puppeteer from 'puppeteer'
+
+import { Browser } from '../browser'
 import { Action } from '../action'
 
 
@@ -11,8 +14,13 @@ import { Action } from '../action'
 
 export const Launch = Action({
   public: false,
-  method: async function() {
-    console.log('launch action called')
+  fields: {
+    browser: { default: 'chome', required: true }
+  },
+  method: async function({ browser }) {
+    Browser.instance = await puppeteer.launch({ ...Browser.options, ...{ product: browser || 'chome' }})
+    Browser.context = Browser.instance.defaultBrowserContext()
+    await SetActivePage({ index: 0 })
   }
 })
 
@@ -31,7 +39,7 @@ export const Allow = Action({
    },
   method: async function({ permissions }) {
     return new Promise(resolve => {
-      console.log('allow action called')
+      resolve(Browser.context.overridePermissions(`http://localhost`, permissions))
     })
   }
 })
@@ -45,7 +53,7 @@ export const Allow = Action({
 export const GetPages = Action({
   public: false,
   method: async () => {
-    console.log('get pages action called')
+    Browser.pages = await Browser.instance.pages()
   }
 })
 
@@ -61,59 +69,7 @@ export const SetActivePage = Action({
   },
   method: async function({ index }) {
     await GetPages()
-    console.log('set active page action called')
-  }
-})
-
-
-/**
- * Alias method for creating a new page within the browser
- * and optionally navigating to a URL in that page. If no
- * URL is specified, it will just open a blank page.
- * @param {string|null} url
- */
-
-export const NewPage = Action({
-  public: true,
-  icon: 'window-alt',
-  title: 'New Page',
-  description: 'Opens a new page in the browser',
-  helper: 'Open a new page at {{url}}',
-  fields: {
-    url: { label: 'Web Address', default: null, type: 'string', field: 'url', required: true }
-  },
-  method: async function({ url }) {
-    console.log('new page action called')
-    if(url) await Navigate({ url })
-  }
-})
-
-
-export const RefreshPage = Action({
-  public: true,
-  icon: 'sync-alt',
-  title: 'Refresh Page',
-  description: 'Refreshes the active page',
-  helper: 'Refresh the current page',
-  method: async function() {
-    console.log('refresh page action called')
-  }
-})
-
-
-/**
- * Alias method for closing the currently active
- * page in the browser.
- */
-
-export const ClosePage = Action({
-  public: false,
-  icon: 'window-close',
-  title: 'Close Page',
-  description: 'Closes the active page',
-  helper: 'Close the current page',
-  method: async function() {
-    console.log('close page action called')
+    Browser.page = Browser.pages[index]
   }
 })
 
@@ -135,7 +91,56 @@ export const Navigate = Action({
     url: { label: 'Web Address', default: null, type: 'string', field: 'url', required: true }
   },
   method: async function({ url }) {
-    console.log('navigate action called')
+    await Browser.page.setCacheEnabled(false)
+    await Browser.page.goto(url, { waitUntil: 'load' })
+  }
+})
+
+
+/**
+ * Alias method for creating a new page within the browser
+ * and optionally navigating to a URL in that page. If no
+ * URL is specified, it will just open a blank page.
+ * @param {string|null} url
+ */
+
+export const NewPage = Action({
+  public: false,
+  fields: {
+    url: { label: 'Web Address', default: null, type: 'string', field: 'url', required: true }
+  },
+  method: async function({ url }) {
+    Browser.page = await Browser.context.newPage()
+    if(url) await Navigate({ url })
+  }
+})
+
+
+export const RefreshPage = Action({
+  public: true,
+  icon: 'sync-alt',
+  title: 'Refresh Page',
+  description: 'Refreshes the active page',
+  helper: 'Refresh the current page',
+  method: async function() {
+    await Browser.page.reload()
+  }
+})
+
+
+/**
+ * Alias method for closing the currently active
+ * page in the browser.
+ */
+
+export const ClosePage = Action({
+  public: false,
+  icon: 'window-close',
+  title: 'Close Page',
+  description: 'Closes the active page',
+  helper: 'Close the current page',
+  method: async function() {
+    await Browser.page.close()
   }
 })
 
@@ -149,6 +154,6 @@ export const Close = Action({
   public: false,
   title: 'Close Browser',
   method: async function() {
-    console.log('close browser action called')
+    await Browser.instance.close()
   }
 })

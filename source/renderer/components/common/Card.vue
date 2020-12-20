@@ -1,11 +1,11 @@
 <template>
-  <div :class="`card flex flex-col select-none rounded-5 bg-white relative mb-${mb} ${hasShadow ? 'has-shadow': null}`">
+  <div :class="`card flex flex-col select-none rounded-5 bg-white relative mb-${mb} ${hasShadow ? 'has-shadow': null}`" :disabled="disabled">
 
-    <div v-if="$slots.thumbnail" @click.prevent="$emit('click')">
+    <div v-if="$slots.thumbnail" @click.prevent="click">
       <slot name="thumbnail"></slot>
     </div>
 
-    <div v-if="$slots.headline" @click.prevent="$emit('click')">
+    <div v-if="$slots.headline" @click.prevent="click">
       <div class="p-4 border-b-1 border-solid border-light-gray-300 w-full">
         <div class="flex flex-row w-full">
           <slot name="headline"></slot>
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="card-content flex flex-col items-start p-4 relative" @click.prevent="$emit('click')">
+    <div class="card-content flex flex-col items-start p-4 relative" @click.prevent="click">
       <slot />
     </div>
 
@@ -29,9 +29,16 @@
   export default class Card extends Vue {
 
     @Prop() thumbnail!: string
-    @Prop() thumbnailPlaceholder!: string
+
+    @Prop({ default: false }) disabled!: boolean
     @Prop({ default: true }) hasShadow!: boolean
     @Prop({ default: 6 }) mb!: number|string
+
+    click() {
+
+      if(!this.disabled) this.$emit('click')
+
+    }
 
   }
 

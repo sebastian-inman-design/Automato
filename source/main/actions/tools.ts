@@ -1,6 +1,7 @@
 import path from 'path'
 
 import { Action } from '../action'
+import { Browser } from '../browser'
 
 import * as paths from '../../paths'
 
@@ -43,9 +44,7 @@ export const Screenshot = Action({
   },
   method: async function({ filename, folder }) {
     if(!filename.endsWith('.png')) filename += '.png'
-    return new Promise( async (resolve: any, reject: any) => {
-      console.log('screenshot action called')
-    })
+    await Browser.page.screenshot({ path: path.join(folder, filename) })
   }
 })
 

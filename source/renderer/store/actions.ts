@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { port } from '../../config'
 
 const state = {
 
@@ -22,7 +23,8 @@ const actions = {
 
   async fetch({ commit }: any) {
 
-    let { data } = await axios.get(`http://localhost:6427/proxy/actions?ts=${Date.now()}`)
+    console.log(`${window.location.origin}proxy/actions?ts=${Date.now()}`)
+    let { data } = await axios.get(`http://localhost:${port}/proxy/actions?ts=${Date.now()}`)
     commit('fetch', data)
 
   },

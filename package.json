@@ -2,7 +2,13 @@
   "name": "automato",
   "version": "1.0.0",
   "description": "Automated website testing",
-  "keywords": ["automato", "automate", "automation", "testing", "test"],
+  "keywords": [
+    "automato",
+    "automate",
+    "automation",
+    "testing",
+    "test"
+  ],
   "license": "ISC",
   "author": {
     "name": "Sebastian Inman",
@@ -15,13 +21,14 @@
     "build:renderer": "vue-cli-service build",
     "build": "npm run build:application && npm run build:renderer",
     "watch:application": "tsc --watch",
-    "watch:renderer": "vue-cli-service serve",
+    "watch:renderer": "vue-cli-service build --watch",
     "watch": "concurrently \"npm run watch:application\" \"npm run watch:renderer\"",
     "devtools": "./node_modules/.bin/vue-devtools",
     "start": "set NODE_ENV=production&&electron-forge start",
     "dev": "set NODE_ENV=development&&electron build/index.js",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "ff": "set PUPPETEER_PRODUCT=chrome&&npm install puppeteer"
   },
   "directories": {
     "buildResources": "build",
@@ -34,6 +41,7 @@
     "dotenv-flow": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "express": "^4.17.1",
+    "puppeteer": "^5.5.0",
     "vue-class-component": "^7.2.6",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.4.9",
@@ -48,6 +56,7 @@
     "@types/axios": "^0.14.0",
     "@types/electron": "^1.6.10",
     "@types/express": "^4.17.9",
+    "@types/puppeteer": "^5.4.2",
     "@types/vue": "^2.0.0",
     "@vue/cli": "^4.5.9",
     "@vue/cli-plugin-babel": "^4.5.9",
@@ -69,32 +78,5 @@
     "tailwindcss": "^1.6.2",
     "typescript": "^4.1.2",
     "vue-template-compiler": "^2.6.12"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "Automato"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
   }
 }

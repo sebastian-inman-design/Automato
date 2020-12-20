@@ -1,3 +1,6 @@
+import axios from 'axios'
+import { port } from '../../config'
+
 const state = {
 
   updatingFeed: true,
@@ -99,7 +102,7 @@ const actions = {
   async execute({ dispatch, commit }: any, { id, workflow }: any) {
 
     console.log('executing workflow')
-    console.log({ id, workflow })
+    await axios.post(`http://localhost:${port}/proxy/workflow/execute`, { id, workflow })
 
   }
   

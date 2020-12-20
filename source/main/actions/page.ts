@@ -1,3 +1,4 @@
+import { Browser } from '../browser'
 import { Action } from '../action'
 
 
@@ -17,7 +18,7 @@ export const Select = Action({
     selector: { label: 'Element Selector', default: null, type: 'string', field: 'text', required: true }
   },
   method: async function({ selector }) {
-    console.log('select action called')
+    await Browser.page.waitForSelector(selector, { visible: true })
   }
 })
 
@@ -39,7 +40,7 @@ export const Hover = Action({
   },
   method: async function({ selector }) {
     await Select({ selector })
-    console.log('hover action called')
+    await Browser.page.hover(selector)
   }
 })
 
@@ -60,8 +61,8 @@ export const Focus = Action({
     selector: { label: 'Element Selector', default: null, type: 'string', field: 'text', required: true }
   },
   method: async function({ selector }) {
-    await Select({ ...{ selector }, visible: true })
-    console.log('focus action called')
+    await Select({ selector })
+    await Browser.page.focus(selector)
   }
 })
 
@@ -84,7 +85,7 @@ export const Click = Action({
   },
   method: async function({ selector }) {
     await Hover({ selector })
-    console.log('click action called')
+    await Browser.page.click(selector)
   }
 })
 
@@ -108,6 +109,6 @@ export const Type = Action({
   },
   method: async ({ selector, value, delay }) => {
     await Focus({ selector })
-    console.log('type action called')
+    await Browser.page.type(selector, value, { delay })
   }
 })

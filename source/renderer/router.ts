@@ -1,16 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import index from './routes/index'
-import workflows from './routes/workflows'
+import routes from './routes'
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
-  mode: 'history',
+const router = new VueRouter({
+  mode: 'hash',
   base: '/',
-  routes: [
-    index,
-    workflows
-  ]
+  routes
 })
+
+export default router

@@ -1,5 +1,5 @@
 <template>
-  <button :type="type" :class="`button flex flex-row items-center rounded-5 bg-${background}-500 hover:bg-${background}-400 text-${color} px-4 h-10 font-${weight} w-${width} text-sm`" 
+  <button :type="type" :class="`button flex flex-row items-center rounded-5 bg-${background}-500 hover:bg-${background}-400 text-${color} px-4 h-10 font-${weight} w-${width} text-sm whitespace-no-wrap`" 
     :disabled="disabled" @click="click">
     <Icon v-if="icon" :family="iconFamily" class="-ml-1 mr-1">{{ icon }}</Icon>
     <slot></slot>

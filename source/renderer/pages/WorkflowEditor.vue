@@ -5,7 +5,7 @@
     <header>
       <Container>
         <div class="flex flex-row items-center">
-          <ButtonAction rounded="full" bg="light-gray-200" @click="$router.go(-1)">
+          <ButtonAction rounded="full" bg="light-gray-200" @click="$router.push('/')">
             <Icon>chevron-left</Icon>
           </ButtonAction>
           <div class="flex flex-col ml-4">
@@ -17,6 +17,9 @@
         <div class="flex flex-row flex-1"></div>
 
         <div class="flex flex-row">
+          <Button :disabled="hasErrors" class="mr-4" @click="testWorkflow">
+            Test Workflow
+          </Button>
           <Button :disabled="hasErrors" @click="publishWorkflow">
             {{ mode === 'create' ? 'Publish Workflow' : 'Save Workflow' }}
           </Button>
@@ -42,7 +45,7 @@
 
           <template v-for="category in Object.keys(actions)" :slot="category">
             <Card v-for="(options, action) in actions[category]" class="cursor-pointer" mb="0"
-              :disabled="!workflow.steps.length && action !== 'NewPage'"
+              :disabled="!workflow.steps.length && action !== 'Navigate'"
               :hasShadow="false"
               :key="`${category}-${action}`" 
               @click="addStep({ category, action })">
@@ -76,7 +79,7 @@
             </div>
           </template>
 
-          <p>Start by choosing the <strong>New Page</strong> action from the sidebar on the left or <a>importing a workflow</a>.</p>
+          <p>Start by choosing the <strong>Enter URL</strong> action from the sidebar on the left or <a>importing a workflow</a>.</p>
 
         </Card>
 
@@ -92,7 +95,7 @@
 
         <div class="absolute top-0 right-0 p-6 flex flex-col items-end justify-start">
           <Notification v-if="errors.titleEmpty" type="danger">Your workflow must have a title</Notification>
-          <Notification v-if="errors.doesNotStartWithNewPage" type="danger">Your workflow must begin by opening a new page</Notification>
+          <Notification v-if="errors.doesNotStartWithNavigate" type="danger">Your workflow must begin by opening a new page</Notification>
         </div>
 
       </div>
@@ -109,7 +112,21 @@
 
           <!-- Workflow Properties -->
           <template slot="Workflow">
+
+            <span class="text-sm text-secondary-900 font-medium my-2">Launch Workflow In</span>
             
+            <div class="flex flex-row mb-4">
+              <label class="flex flex-row items-center mr-4 cursor-pointer">
+                <input type="radio" value="chrome" v-model="workflow.browser" />
+                <span class="ml-1 text-sm">Chrome</span>
+              </label>
+
+              <label class="flex flex-row items-center mr-4 cursor-pointer">
+                <input type="radio" value="firefox" v-model="workflow.browser" />
+                <span class="ml-1 text-sm">Firefox</span>
+              </label>
+            </div>
+
             <Input label="Workflow Name" type="text" :val="workflow.title" v-model="workflow.title" />
             <Textarea label="Workflow Description" :val="workflow.description" v-model="workflow.description" />
             <FileUpload label="Workflow Thumbnail" :image="workflow.thumbnail" @change="uploadWorkflowThumbnail" />
@@ -168,12 +185,13 @@
     mode: 'create'|'update' = this.$route.params.id ? 'update' : 'create'
     selected: null|number = null
 
-    workflow = this.$route.meta.workflow || {
-      title: <string> 'New Workflow',
-      description: <string> 'My amazing new workflow',
-      thumbnail: <string|null> null,
-      category: <string> '',
-      steps: <Array<any>> []
+    workflow: Workflow = this.$route.meta.workflow || {
+      title: 'New Workflow',
+      browser: 'chrome',
+      description: 'My amazing new workflow',
+      thumbnail: null,
+      category: null,
+      steps: []
     }
 
     get refs(): any {
@@ -201,7 +219,7 @@
       return {
         titleEmpty: !this.workflow.title || this.workflow.title === '',
         noActions: !this.workflow.steps.length || this.workflow.steps.length <= 0,
-        doesNotStartWithNewPage: this.workflow.steps[0] &&  this.workflow.steps[0].action !== 'NewPage'
+        doesNotStartWithNavigate: this.workflow.steps[0] &&  this.workflow.steps[0].action !== 'Navigate'
       }
 
     }
@@ -226,8 +244,17 @@
 
       if(this.selected !== null) {
 
-        this.refs.properties.enableTab("Action")
-        this.refs.properties.setActiveTab("Action")
+        if(this.workflow.steps[this.selected].fields && Object.keys(this.workflow.steps[this.selected].fields).length) {
+
+          this.refs.properties.enableTab("Action")
+          this.refs.properties.setActiveTab("Action")
+
+        }else{
+
+          this.refs.properties.disableTab("Action")
+          this.refs.properties.setActiveTab("Workflow")
+
+        }
 
       }else{
 
@@ -313,6 +340,15 @@
 
       this.workflow.steps.splice(id, 1)
       setTimeout(() => this.selectStep(null), 1)
+
+    }
+
+    async testWorkflow() {
+
+      await this.$store.dispatch('workflows/execute', {
+        id: this.id,
+        workflow: this.workflow
+      })
 
     }
 
